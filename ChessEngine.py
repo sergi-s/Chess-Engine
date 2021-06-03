@@ -115,13 +115,13 @@ class GameState():
         elif move.pieceMove == "bK":
             self.currentCasltingRight.bks = False
             self.currentCasltingRight.bqs = False
-        elif move.pieceMove == "wR":
+        elif move.pieceMove == "wR" or move.pieceCaptured == 'wR':
             if move.startRow == 7:
                 if move.startCol == 0:
                     self.currentCasltingRight.wqs = False
                 elif move.startCol == 7:
                     self.currentCasltingRight.wks = False
-        elif move.pieceMove == "bR":
+        elif move.pieceMove == "bR" or move.pieceCaptured == 'bR':
             if move.startRow == 0:
                 if move.startCol == 0:
                     self.currentCasltingRight.bqs = False
@@ -225,9 +225,6 @@ class GameState():
     # ? Get all possible Moves considering checks -> Naive
 
     def getValidMoves(self):
-        for log in self.castleRightsLog:
-            print(log, end=", ")
-        print()
 
         tempEmpassantPossible = self.enpassantPossible
 
