@@ -5,6 +5,7 @@
 import pygame as p
 import ChessEngine
 import os
+import chessAI
 
 WIDTH = HEIGHT = 512  # 400 is another good option
 DIMENSION = 8
@@ -39,13 +40,17 @@ def main():
     playerClicks = []  # * keep track of player clicks, 2 tuples
 
     gameOver = False
+    playerOne = False  # TODO: for diffculties playerOne and playerTwo wil be ints
+    playerTwo = False
     while running:
+        isHumanTrun = (gs.whiteToMove and playerOne) or (
+            not gs.whiteToMove and playerTwo)
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
             # ? mouse Handler
             elif e.type == p.MOUSEBUTTONDOWN:
-                if not gameOver:
+                if not gameOver and isHumanTrun:
                     location = p.mouse.get_pos()  # * (x,y) location of mouse
                     col = location[0]//SQ_SIZE
                     row = location[1]//SQ_SIZE
@@ -77,6 +82,12 @@ def main():
                     sqSelected = ()
                     playerClicks = []
                     moveMade = False
+
+        # ? AI move finder Logic
+        if not gameOver and not isHumanTrun:
+            AIMove = chessAI.findRandomMove(validMoves)
+            gs.makeMove(AIMove)
+            moveMade = True
 
         if moveMade:
             validMoves = gs.getValidMoves()
