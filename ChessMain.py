@@ -40,7 +40,7 @@ def main():
     playerClicks = []  # * keep track of player clicks, 2 tuples
 
     gameOver = False
-    playerOne = False  # TODO: for diffculties playerOne and playerTwo wil be ints
+    playerOne = True  # TODO: for diffculties playerOne and playerTwo wil be ints
     playerTwo = False
     while running:
         isHumanTrun = (gs.whiteToMove and playerOne) or (
@@ -82,10 +82,15 @@ def main():
                     sqSelected = ()
                     playerClicks = []
                     moveMade = False
+                    gameOver = False
 
         # ? AI move finder Logic
         if not gameOver and not isHumanTrun:
-            AIMove = chessAI.findRandomMove(validMoves)
+            # AIMove = chessAI.findRandomMove(validMoves)
+            # AIMove = chessAI.findBestMove(gs, validMoves)
+            AIMove = chessAI.findBestMoveMinMax(gs, validMoves)
+            if AIMove is None:
+                AIMove = chessAI.findRandomMove(validMoves)
             gs.makeMove(AIMove)
             moveMade = True
 
